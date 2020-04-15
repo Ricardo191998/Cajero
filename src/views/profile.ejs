@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es"  manifest="manifest.appcache">
+
+
+<head>
+    <title>Cajero Automático</title>
+    <meta charset=utf-8>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/cajero.css">
+    <style>
+        #heading { color: rgb(255, 255, 255); }
+      </style>
+</head>
+
+<body background="images/fondo.jpg">
+    <div id="contenedor" class="container">
+        <header>
+            <div class="d-inline-flex">
+                <h3 id="heading" class="d-flex"> Cajero Automático</h3>
+                <div class="btn btn-success ml-5 h-10px"><a class = "text-white h-10px" href="/logout">Logout</a></div>
+            </div>
+            <hr>
+        </header>
+       
+        <div id="nav-options">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#clientes"><span class="glyphicon glyphicon-user"></span> Clientes</a></li>
+               
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div id="clientes" class="tab-pane fade in active">
+                <form class="form-inline">
+                    <div class="input-group">
+                        <span class="input-group-addon">Número de Cuenta</span>
+                        <span class="input-group-addon" id="myCount"><%= count.no_count %></span>
+                        <!-- <label type="text" class="form-control" id="usuarioCliente" aria-describedby="basic-addon1"> -->
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon">Saldo Actual</span>
+                        <span class="input-group-addon" id="valance">$<%= count.salary%></span>
+                        <!-- <label type="text" class="form-control" placeholder="" id="dineroCliente" aria-describedby="basic-addon1"> -->
+                    </div>
+                    <br>
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">Operación</span>
+                        <input type="text" class="form-control" placeholder="Dinero" id="dineroCliente" aria-describedby="basic-addon1">
+                    </div>
+                </form>
+                <hr/>
+                <div class="btn-group gbotones" role="group" aria-label="...">
+                    <button type="button" id="retirar" class="btn btn-success" onclick="retiro()">
+                        <span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Retirar Efectivo
+                    </button>
+                    <button type="button" id="ingresar" class="btn btn-danger" onclick="ingreso()">
+                        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ingresar Efectivo
+                    </button>
+                    
+                </div>
+                <div>
+                    <hr>
+                    <h3 id="heading">Transacciones</h3>
+                        <hr>
+                        <form class="form-inline">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">@</span>
+                                <input type="text" class="form-control" placeholder="Usuario" id="noCount"  value = " "  aria-describedby="basic-addon1">
+                            </div>
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">€</span>
+                                <input type="text" class="form-control" placeholder="Dinero" id="mount" value = " "  aria-describedby="basic-addon1">
+                            </div>
+                        </form>
+
+                        <hr/>
+                        <div class="btn-group gbotones" role="group" aria-label="...">
+                            <button type="button"  id="retirarEfectivoCliente" onclick = "cambio()" class="btn btn-warning">
+                                    <span class="#" aria-hidden="true" ></span></span> Realizar Transacción
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <br>
+                <div class="d-flex">
+                    
+                    <h3 id="heading">Historial</h3>
+                    <div class="btn-group gbotones mt-4 ml-5" role="group" aria-label="...">
+                        <button type="button"  id="retirarEfectivoCliente" onclick = "getHistory()" class="btn btn-success">
+                                <span class="#" aria-hidden="true" ></span></span> Actualizar
+                        </button>
+                    </div>
+                </div>
+                <div class = "historic">
+                    <table class="table table-dark">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Pagado a Cuenta</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Día</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <%for(let i= 0; i< historic.length ; i++){%>
+                          <tr>
+                            <th scope="row"><%=i%></i></th>
+                            <td><%=historic[i].other_count%></td>
+                            <td><%=historic[i].mount%></td>
+                            <td><%=historic[i].day%></td>
+                          </tr>
+                          <%}%>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+
+
+            
+</body>
+
+<script>
+    async function cambio(){
+        noCount = document.getElementById("noCount").value;
+        mount = document.getElementById("mount").value;
+        let valance = document.getElementById("valance").innerHTML;
+        let myCount = document.getElementById("myCount").innerHTML;
+        valance = valance.slice(1,valance.length);
+        if( mount.length !=0 && noCount.length != 0){
+            if(noCount.length != 11 ){
+                return alert("Numero de cuenta invalido");
+            }
+            if(!((/\d/.test(noCount)) && (/\d/.test(mount)))){
+                return alert("Ingresa los datos correctos");
+            }
+            if(parseInt(mount)> parseInt(valance)){
+                return alert("Transacción invalida");
+            }
+            let url = 'https://cajero-app.herokuapp.com/transaction' 
+
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({no_count: myCount, debt_collector: noCount, mount : mount })
+            });
+            location.reload();
+        }else{
+            alert("Favor de rellenar todos los campos");
+        }
+    }
+
+
+    function getHistory(){
+        location.reload();
+    }
+
+    async function retiro(){
+        let money = document.getElementById("dineroCliente").value; 
+        let valance = document.getElementById("valance").innerHTML;
+        let myCount = document.getElementById("myCount").innerHTML;
+        if(!((/\d/.test(money)))){
+            return alert("Monto a retirar invalido");
+        }
+        if(parseInt(money) > parseInt(valance)){
+                return alert("Transacción invalida");
+        }
+        
+        let url = 'https://cajero-app.herokuapp.com/draw_on' 
+
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({no_count: myCount,mount: money })
+        });
+
+
+        location.reload();
+    }
+
+    async function ingreso(){
+        let money = document.getElementById("dineroCliente").value; 
+        let valance = document.getElementById("valance").innerHTML;
+        let myCount = document.getElementById("myCount").innerHTML;
+        if(!((/\d/.test(money)))){
+            return alert("Monto a insertar invalido");
+        }
+        
+        let url = 'https://cajero-app.herokuapp.com/insert_money' 
+
+            let response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({no_count: myCount,mount: money })
+        });
+        
+        location.reload();
+    }
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+<!--<script src="cajero.js"></script>-->
+
+</html>

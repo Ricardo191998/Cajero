@@ -1,0 +1,70 @@
+<link rel="stylesheet" href="css/signin.css">
+
+<div class="brand">
+    <a href ='https://www.jamiecoulter.co.uk' target = '_blank'>
+      <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/logo.png'/>  </a>
+  </div>
+  <div class="login">
+    <div class="login_title">
+      <span>Ingresa tu cuenta</span>
+    </div>
+    <div class="login_fields">
+      <div class="login_fields__user">
+        <div class="icon">
+          <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/user_icon_copy.png'/>
+        </div>
+        <input type = 'text' placeholder = 'No de Cuenta' id = "noCount"/>
+          <div class="validation">
+            <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png'/></div></div>
+      <div class="login_fields__password">
+        <div class="icon">
+          <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/lock_icon_copy.png'/></div>
+        <input type = 'password' placeholder = 'PIN' id = "pass"/><div class="validation">
+          <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/tick.png'/></div>
+      </div>
+      <div class="login_fields__submit">
+        <input  type = 'submit' value = 'Log In' onclick="signIn()" /><div class="forgot">
+          <a href = '#'>Forgotten password?</a>
+        </div>
+      </div>
+    </div>
+    <div class="success">
+      <h2>Authentication Success</h2>
+      <p>Welcome back</p>
+    </div>
+    <div class="disclaimer">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper laoreet placerat. Nullam semper auctor justo, rutrum posuere odio vulputate nec.</p>
+    </div>
+  </div>
+  <div class="authent">
+    <img src = 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/puff.svg' /><p>Authenticating...</p>
+  </div>
+  <div class="love">
+    <p>Made with <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/217233/love_copy.png" /> by <a href='https://www.jamiecoulter.co.uk' target='_blank'> Jcoulterdesign </a></p>
+  </div>
+
+  <script>
+    async function signIn(){
+      console.log(document.getElementById('noCount').value+ document.getElementById('pass').value)
+      let noCount = document.getElementById('noCount').value;
+      let pass = document.getElementById('pass').value;
+      if(noCount.length == 0 || pass.length == 0){
+        alert("Correo o contraseña invalidos")
+      }else{
+        if(noCount.length == 11 ){
+          let url = 'https://cajero-app.herokuapp.com/signin' 
+
+          let response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({no_count: noCount, pass: pass})
+          });
+        }else{
+          alert("No de cuenta invalido");
+        }
+      }
+    };
+  </script>
+  
