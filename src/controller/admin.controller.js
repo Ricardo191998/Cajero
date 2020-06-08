@@ -95,6 +95,18 @@ adminController.createCount = async (req , res) =>{
            user
     } 
 
+    const users = await pool.query("SELECT * FROM user");
+    
+    if(!users){
+        return res.send({mesage : "no se puede crear cuenta"});
+    }
+
+    users = users.filter((obj)=> obj== user);
+
+    if(users.length == 0){
+        return res.send({mesage : "No existe usuario asociado"});
+    }
+
     newCount.pass = await helpers.encryptPassword(pass);
     pool.query("SELECT * FROM ccount WHERE  no_count = ?", [no_count])
         .then((res)=> {

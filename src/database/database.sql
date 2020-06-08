@@ -68,3 +68,17 @@ CREATE TABLE historic(
 );
 
 DESCRIBE history;
+
+
+CREATE TABLE transaction(
+    id_transaction INT NOT NULL,
+    id_count_origin  INT NOT NULL,
+    status BOOLEAN NOT NULL,
+    id_count_dest INT NOT NULL,
+    day TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT FOREIGN KEY (id__count_origin) REFERENCES ccount(no_count),
+    CONSTRAINT FOREIGN KEY (id__count_dest) REFERENCES ccount(no_count),
+    PRIMARY KEY(id_transaction)
+)
+
+DESCRIBE history;

@@ -1,15 +1,15 @@
 --Primeros Inserts de Table User
 
-INSERT INTO user (name , email , direccion, telephone)
+INSERT INTO user (name , email , direction, telephone)
 VALUES ('tes1', 'test1@gmail.com', 'Direct no14', 5513132323);
 
-INSERT INTO user (name , email , direccion, telephone)
+INSERT INTO user (name , email , direction, telephone)
 VALUES ('tes2', 'test2@gmail.com', 'Direct no11', 5523984232);
 
-INSERT INTO user (name , email , direccion, telephone)
+INSERT INTO user (name , email , direction, telephone)
 VALUES ('tes3', 'test3@gmail.com', 'Direct no12', 5532424393);
 
-INSERT INTO user (name , email , direccion, telephone)
+INSERT INTO user (name , email , direction, telephone)
 VALUES ('tes4', 'test4@gmail.com', 'Direct no13', 5509239493);
 
 
